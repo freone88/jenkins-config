@@ -1,9 +1,6 @@
-name: Github actions with IAM Role
-on: [push]
+name: Github Actions with IAM Role
 
-env:
-  AWS_REGION: eu-west-1
-  IAM_ROLE: ${{ secrets.BONP }}
+on: [push]
 
 permissions:
   contents: read
@@ -12,16 +9,24 @@ permissions:
 jobs:
   AssumeRole:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        region: ['eu-west-1', 'eu-west-1']
+        iam-role: ['BONP', 'SANDBOX']  # Use key names to identify secrets
+
     steps:
     - name: Clone Repository
       uses: actions/checkout@v4
+
+    - name: Set IAM Role from Secrets
+      run: echo "IAM_ROLE=${{ secrets[matrix.iam-role] }}" >> $GITHUB_ENV
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ env.IAM_ROLE }}
         role-session-name: github-actions-federation
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: ${{ matrix.region }}
 
     - name: List Buckets
       run: aws s3 ls
