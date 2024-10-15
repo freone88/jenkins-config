@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        region: ['eu-west-1', 'eu-west-2']
-        iam-role: ['BONP', 'SANDBOX']  # Use key names to identify secrets
+        region: ['eu-west-1', 'us-east-1']  # Define regions in the matrix
+        iam-role: ['BONP', 'SANDBOX']        # IAM role secrets
 
     steps:
     - name: Clone Repository
@@ -28,5 +28,12 @@ jobs:
         role-session-name: github-actions-federation
         aws-region: ${{ matrix.region }}
 
-    - name: List Buckets
-      run: aws s3 ls
+    - name: Display Role and Region
+      run: |
+        echo "Running in AWS Region: ${{ matrix.region }}"
+        echo "Assumed IAM Role: ${{ env.IAM_ROLE }}"
+
+    - name: List Lambda Functions in Region
+      run: |
+        echo "Listing Lambda functions in region ${{ matrix.region }}"
+        aws lambda list-functions --region ${{ matrix.region }} --output table
