@@ -2,8 +2,8 @@ name: Github actions with IAM Role
 on: [push]
 
 env:
-  AWS_REGION: ${{ secrets.REGION }}
-  IAM_ROLE: ${{ secrets.IAM_ROLE }}
+  AWS_REGION: eu-west-1
+  IAM_ROLE: ${{ secrets.BONP }}
 
 permissions:
   contents: read
