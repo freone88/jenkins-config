@@ -36,12 +36,17 @@ jobs:
     - name: List Lambda Functions in Region
       run: |
         echo "Listing Lambda functions in region ${{ matrix.region }}"
-        output_file="lambda_functions_${{ matrix.region }}_${{ matrix.iam-role }}.txt"
-        aws lambda list-functions --region ${{ matrix.region }} --output text > $output_file
+        output_file="lambda_functions_${{ matrix.region }}_${{ matrix.iam-role }}.md"
+        
+        # Generate Markdown output
+        echo "# Lambda Functions in ${{ matrix.region }} (Role: ${{ matrix.iam-role }})" > $output_file
+        echo "" >> $output_file
+        aws lambda list-functions --region ${{ matrix.region }} --query "Functions[*].[FunctionName, Runtime, LastModified, MemorySize]" --output table >> $output_file
+        
         echo "Lambda functions for region ${{ matrix.region }} and role ${{ matrix.iam-role }} saved to $output_file"
 
-    - name: Upload Lambda Functions Artifact
-      uses: actions/upload-artifact@v4.4.3
+    - name: Upload Lambda Functions Markdown Artifact
+      uses: actions/upload-artifact@v3
       with:
-        name: lambda-functions-${{ matrix.region }}-${{ matrix.iam-role }}
-        path: lambda_functions_${{ matrix.region }}_${{ matrix.iam-role }}.txt
+        name: lambda-functions-md-${{ matrix.region }}-${{ matrix.iam-role }}
+        path: lambda_functions_${{ matrix.region }}_${{ matrix.iam-role }}.md
