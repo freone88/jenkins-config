@@ -41,7 +41,7 @@ jobs:
         echo "Lambda functions for region ${{ matrix.region }} and role ${{ matrix.iam-role }} saved to $output_file"
 
     - name: Upload Lambda Functions Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4.4.3
       with:
         name: lambda-functions-${{ matrix.region }}-${{ matrix.iam-role }}
         path: lambda_functions_${{ matrix.region }}_${{ matrix.iam-role }}.txt
