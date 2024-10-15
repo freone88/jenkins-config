@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        region: ['eu-west-1', 'eu-west-1']
+        region: ['eu-west-1', 'eu-west-2']
         iam-role: ['BONP', 'SANDBOX']  # Use key names to identify secrets
 
     steps:
