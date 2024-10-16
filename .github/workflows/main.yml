@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         region: ['eu-west-1', 'us-east-1']  # Define regions in the matrix
-        iam-role: ['BONP', 'SANDBOX']        # IAM role secrets
+        iam-role: ['BONP_BAMBOO']        # IAM role secrets
 
     steps:
     - name: Clone Repository
