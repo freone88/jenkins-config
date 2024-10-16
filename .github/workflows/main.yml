@@ -42,7 +42,7 @@ jobs:
         echo "# Lambda Functions in ${{ matrix.region }} (Role: ${{ matrix.iam-role }})" > $output_file
         echo "" >> $output_file
         aws lambda list-functions --region ${{ matrix.region }} --query "Functions[*].[FunctionName, Runtime, LastModified, MemorySize]" --output table >> $output_file
-        
+        aws lambda list-functions --region ${{ matrix.region }} --query "Functions[*].[FunctionName, Runtime, LastModified, MemorySize]" --output table
         echo "Lambda functions for region ${{ matrix.region }} and role ${{ matrix.iam-role }} saved to $output_file"
 
     - name: Upload Lambda Functions Markdown Artifact
